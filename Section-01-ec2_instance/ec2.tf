@@ -1,13 +1,14 @@
-resource "aws_instance" "My-Webserver" {
-
- ami = "ami-0a313d6098716f372"
- instance_type = "t2.micro"
- vpc_security_group_ids = ["aws_security_group.webserver_sg.id"]
- tags = {
-	 Name = "My-Webserver"
- }
- key_name = "terraform"
- user_data = <<EOF
+resource "aws_instance" "hello-world" {
+  ami           = var.ami
+  count = 3
+  instance_type = var.instance_type
+  vpc_security_group_ids = ["${aws_security_group.my_sg.id}"]
+  subnet_id = "subnet-b42458e8"
+  key_name      = "virginiakey"
+  tags = {
+      Name = "hello-world-${count.index}"
+  }
+user_data = <<EOF
 #!/bin/bash -xe
 exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
 /usr/bin/apt-get update
