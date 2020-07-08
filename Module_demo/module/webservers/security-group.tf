@@ -4,7 +4,7 @@ resource "aws_security_group" "my_sg" {
         from_port = var.http_port
         to_port  = var.http_port
         protocol = "tcp"
-        security_groups = [ "sg-0e68d6b4b5ff0546b" ]
+        cirdr_blocks = [ var.my_ip ]
     }
     ingress {
         from_port = var.ssh_port
